@@ -16,13 +16,35 @@ function pointInPolygon (point, vs) {
 
 	return inside;
 };
+var count = 0;
+var done = {};
+var maxcount = 500;
+var psize;
+var psize1;
+var ctx;
+var numberOfSides = 6;
+var polygon;
+var polygon1;
+
 function resizeCanvas() {
-	var ctx = document.getElementById('moc-16').getContext('2d');
+	ctx = document.getElementById('moc-16').getContext('2d');
 	ww = ctx.canvas.width = window.innerWidth;
 	wh = ctx.canvas.height = window.innerHeight;
+	psize = ww/4-ww/10;
+	psize1 = ww/4-ww/10*1.3;
+	polygon = [[ww/2 +  psize * Math.sin(0), wh/2 -  psize *  Math.cos(0)]]
+		for (var i = 1; i <= numberOfSides;i += 1) {
+			polygon.push([ww/2 + psize * Math.sin(i * 2 * Math.PI / numberOfSides), wh/2 - psize * Math.cos(i * 2 * Math.PI / numberOfSides)]);
+		}
+	polygon1 = [[ww/2 +  psize1 * Math.sin(0), wh/2 -  psize1 *  Math.cos(0)]]
+		for (var i = 1; i <= numberOfSides;i += 1) {
+			polygon1.push([ww/2 + psize1 * Math.sin(i * 2 * Math.PI / numberOfSides), wh/2 - psize1 * Math.cos(i * 2 * Math.PI / numberOfSides)]);
+		}
+	count = 0;
+	done = {};
 }
 
-//window.addEventListener('resize', resizeCanvas, false);
+window.addEventListener('resize', resizeCanvas, false);
 function fnGetRandomColour(iDarkLuma, iLightLuma) 
 {       
 	var pal = [[135,201,233],
@@ -35,15 +57,8 @@ function fnGetRandomColour(iDarkLuma, iLightLuma)
 	return pal[Math.round((pal.length-1) * Math.random())]
 } 
 
-var done = {}
-var count = 0;
-var maxcount = 500;
-
 document.addEventListener('DOMContentLoaded', function() {
 	resizeCanvas()
-	var ctx = document.getElementById('moc-16').getContext('2d');
-ww = ctx.canvas.width = window.innerWidth;
-wh = ctx.canvas.height = window.innerHeight;
 
 var requestAnimFrame = (function(){
 	return  window.requestAnimationFrame       ||
@@ -54,17 +69,6 @@ var requestAnimFrame = (function(){
 	};
 })();
 
-var numberOfSides = 6,
-psize = ww/4-ww/10;
-polygon = [[ww/2 +  psize * Math.sin(0), wh/2 -  psize *  Math.cos(0)]]
-for (var i = 1; i <= numberOfSides;i += 1) {
-	polygon.push([ww/2 + psize * Math.sin(i * 2 * Math.PI / numberOfSides), wh/2 - psize * Math.cos(i * 2 * Math.PI / numberOfSides)]);
-}
-psize1 = ww/4-ww/10*1.3;
-polygon1 = [[ww/2 +  psize1 * Math.sin(0), wh/2 -  psize1 *  Math.cos(0)]]
-for (var i = 1; i <= numberOfSides;i += 1) {
-	polygon1.push([ww/2 + psize1 * Math.sin(i * 2 * Math.PI / numberOfSides), wh/2 - psize1 * Math.cos(i * 2 * Math.PI / numberOfSides)]);
-}
 
 drawgroup = []
 function loop() {
