@@ -16,15 +16,15 @@ function pointInPolygon (point, vs) {
 
 	return inside;
 };
-var count = 0;
-var done = {};
 var maxcount = 500;
+var numberOfSides = 6;
+
+var ctx;
 var psize;
 var psize1;
-var ctx;
-var numberOfSides = 6;
 var polygon;
 var polygon1;
+var drawgroup;
 
 function resizeCanvas() {
 	ctx = document.getElementById('moc-16').getContext('2d');
@@ -40,6 +40,7 @@ function resizeCanvas() {
 		for (var i = 1; i <= numberOfSides;i += 1) {
 			polygon1.push([ww/2 + psize1 * Math.sin(i * 2 * Math.PI / numberOfSides), wh/2 - psize1 * Math.cos(i * 2 * Math.PI / numberOfSides)]);
 		}
+	drawgroup = [];
 	count = 0;
 	done = {};
 }
@@ -70,7 +71,6 @@ var requestAnimFrame = (function(){
 })();
 
 
-drawgroup = []
 function loop() {
 	if(count > maxcount)
 		polygon = polygon1;
